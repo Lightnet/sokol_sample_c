@@ -109,6 +109,62 @@ add_library(cimgui STATIC
 )
 target_include_directories(cimgui INTERFACE cimgui)
 
+
+set(SOKOL_FILES
+    "https://raw.githubusercontent.com/floooh/sokol/refs/heads/master/sokol_app.h|sokol_app.h"
+    "https://raw.githubusercontent.com/floooh/sokol/refs/heads/master/sokol_gfx.h|sokol_gfx.h"
+    "https://raw.githubusercontent.com/floooh/sokol/refs/heads/master/sokol_time.h|sokol_time.h"
+    # add more lines as needed
+)
+
+# Destination folder (inside the binary tree so it never pollutes source)
+set(SOKOL_DEST_DIR "${CMAKE_CURRENT_BINARY_DIR}/include/sokol")
+file(MAKE_DIRECTORY "${SOKOL_DEST_DIR}")
+
+# ----------------------------------------------------------------------
+# Helper function – download one file (with optional hash)
+# ----------------------------------------------------------------------
+function(download_sokol_file URL LOCAL_NAME)
+    set(DEST "${SOKOL_DEST_DIR}/${LOCAL_NAME}")
+
+    # ----> OPTIONAL: provide a SHA-256 hash here for integrity
+    set(EXPECTED_HASH "")                     # <-- leave empty to skip check
+    # Example (uncomment & fill):
+    # set(EXPECTED_HASH "SHA256=ab12…")
+
+    file(DOWNLOAD
+         "${URL}"
+         "${DEST}"
+         STATUS _status
+         ${EXPECTED_HASH}                     # omitted if empty
+         SHOW_PROGRESS
+         TLS_VERIFY ON
+         TIMEOUT 30)                         # abort after 30 s
+
+    list(GET _status 0 _code)
+    if(NOT _code EQUAL 0)
+        list(GET _status 1 _msg)
+        message(FATAL_ERROR "Download failed: ${URL} → ${_msg}")
+    endif()
+
+    # Make CMake re-configure if the remote file changes
+    # (only works when a hash is *not* supplied – CMake then stores a timestamp)
+    if(NOT EXPECTED_HASH)
+        set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${URL}")
+    endif()
+endfunction()
+
+# ----------------------------------------------------------------------
+# Perform the downloads
+# ----------------------------------------------------------------------
+# foreach(entry IN LISTS SOKOL_FILES)
+#     string(REPLACE "|" ";" parts "${entry}")
+#     list(GET parts 0 URL)
+#     list(GET parts 1 LOCAL_NAME)
+#     download_sokol_file("${URL}" "${LOCAL_NAME}")
+# endforeach()
+
+
 #=== LIBRARY: sokol
 # add headers to the the file list because they are useful to have in IDEs
 set(SOKOL_HEADERS

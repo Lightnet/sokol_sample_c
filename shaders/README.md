@@ -75,6 +75,19 @@ Options:
 ```
 ./sokol-shdc.exe --input shaders/quad_wireframe.glsl --output include/quad_wireframe.glsl.h --format sokol --slang glsl410
 ```
+```
+./sokol-shdc.exe --input shaders/quad_textured.glsl --output include/quad_textured.glsl.h --format sokol --slang glsl410
+```
+
+```
+./sokol-shdc.exe --input shaders/sbuftex_sapp.glsl --output include/sbuftex_sapp.glsl.h --format sokol --slang glsl410
+```
+
+```
+./sokol-shdc.exe --input shaders/loadpng_sapp.glsl --output include/loadpng_sapp.glsl.h --format sokol --slang glsl410
+```
+
+
 
 # Type of gl:
 ```

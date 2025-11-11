@@ -25,6 +25,7 @@
 - There are good examples of the github from floooh and other devs.
 - Need to match the header files for those functions from out date code to keep it simple.
 - cimgui stil use c++ to wrapper for ease quick gui build.
+- some headers are out date for stb image.
 
 # KISS (Keep It Simple, Stupid):
   Note due to dev from sokol is keep it simple and let the dev create their own features to extend.

@@ -191,17 +191,15 @@ target_link_libraries(sokol PUBLIC cimgui)
 target_include_directories(sokol INTERFACE sokol)
 
 
-
-
-
-
-
 set(APP_NAME demo)
 set(MAIN_FILE
     # src/demo.c
     # src/sokol_flecs.c
-    src/sokol_window.c
-    # src/triangle.c
+    # examples/sokol_window.c
+    # examples/triangle.c
+    # examples/quad.c
+    examples/quad-wireframe.c
+    # examples/triangle.c
 )
 #=== EXECUTABLE: demo
 if(CMAKE_SYSTEM_NAME STREQUAL Windows)

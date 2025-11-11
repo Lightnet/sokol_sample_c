@@ -45,6 +45,8 @@ static void app_logf(const char* tag,
 
 static void init(void) {
     printf("init...\n");
+
+    // SOKOL_LOG("TEST");
     LOG_INFO("mygame", "init...");
 
     static int fps = 0;

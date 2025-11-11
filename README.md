@@ -90,13 +90,39 @@ sapp_desc sokol_main(int argc, char* argv[]) {
 
 # Guide:
   Work in progress.
-
-  Work on raylib and raylib abstraction layer. As it has only header files. There are other libraries like SDL, SFML and others. 
   
   Sokol only use header to keep things minimal. To make it compatible for export to cross platforms. Read more about the to link: https://github.com/floooh/sokol . There is no version for sokol github from I get from it. I can only use data commit date version as reference Nov 6, 2025. Note that there will be changes for files for sokol github to make the api to be simple as possible.
 
+  You need to get sokol shader tool to run this sample project. Sokol have build or download the tool for shader c programing language. It can be found in sokol github in the read me file for links. It required python, ninja and other tools to build the shader tool.
+
+## triangle.glsl
+```
+@vs vs
+in vec4 position;
+
+void main() {
+    gl_Position = vec4(position.x, position.y, position.z, 1.0);
+}
+@end
+
+@fs fs
+out vec4 FragColor;
+
+void main() {
+    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+}
+@end
+
+@program simple vs fs
+```
+## command line:
+```
+./sokol-shdc.exe --input shaders/triangle.glsl --output include/triangle.glsl.h --format sokol --slang glsl410
+```
+  Note args might change for how compile to header file. Check using the help command line or read the docs for shaderc tool github.
+
 # Credits:
 - https://github.com/floooh/sokol
-- 
+- https://github.com/zeromake/learnopengl-examples
 - 
 

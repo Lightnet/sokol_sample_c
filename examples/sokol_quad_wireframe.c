@@ -13,7 +13,7 @@
 /* -------------------------------------------------------------
    Logging helper – safe name, variadic, passes line/file
    ------------------------------------------------------------- */
-static void app_logf(const char* tag,
+static void slogf(const char* tag,
                      uint32_t level,
                      const char* fmt,
                      uint32_t line,
@@ -33,13 +33,13 @@ static void app_logf(const char* tag,
    Helper macros – note the __LINE__/__FILE__ are now part of the macro
    ----------------------------------------------------------------- */
 #define LOG_INFO(tag, fmt, ...) \
-    app_logf(tag, 3, fmt, __LINE__, __FILE__, ##__VA_ARGS__)
+    slogf(tag, 3, fmt, __LINE__, __FILE__, ##__VA_ARGS__)
 
 #define LOG_WARN(tag, fmt, ...) \
-    app_logf(tag, 2, fmt, __LINE__, __FILE__, ##__VA_ARGS__)
+    slogf(tag, 2, fmt, __LINE__, __FILE__, ##__VA_ARGS__)
 
 #define LOG_ERROR(tag, fmt, ...) \
-    app_logf(tag, 1, fmt, __LINE__, __FILE__, ##__VA_ARGS__)
+    slogf(tag, 1, fmt, __LINE__, __FILE__, ##__VA_ARGS__)
 
 
 typedef struct {

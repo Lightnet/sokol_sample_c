@@ -1,6 +1,71 @@
 
+# Shader tool:
+sokol-shdc.exe files build by floooh that use sokol to create shader header file.
 
+```
+sokol-shdc --help
+```
 
+```
+Usage: sokol-shdc -i input [-o output] [options]
+
+Where [input] is exactly one .glsl file in Vulkan syntax (separate texture and sampler uniforms),
+and [output] is a C header with embedded shader source code and/or byte code and
+code-generated uniform-block and shader-description C structs ready for use with sokol_gfx.h     
+
+Please refer to the documentation to learn about the 'annotated GLSL syntax':
+
+  https://github.com/floooh/sokol-tools/blob/master/docs/sokol-shdc.md
+
+Target shader languages (used with -l --slang):
+  - glsl410        desktop OpenGL backend (SOKOL_GLCORE)
+  - glsl430        desktop OpenGL backend (SOKOL_GLCORE)
+  - glsl300es      OpenGLES3 and WebGL2 (SOKOL_GLES3)
+  - glsl310es      OpenGLES3.1 (SOKOL_GLES3)
+  - hlsl4          Direct3D11 with HLSL4 (SOKOL_D3D11)
+  - hlsl5          Direct3D11 with HLSL5 (SOKOL_D3D11)
+  - metal_macos    Metal on macOS (SOKOL_METAL)
+  - metal_ios      Metal on iOS devices (SOKOL_METAL)
+  - metal_sim      Metal on iOS simulator (SOKOL_METAL)
+  - wgsl           WebGPU (SOKOL_WGPU)
+
+Output formats (used with -f --format):
+  - sokol          C header which includes both decl and inlined impl
+  - sokol_impl     C header with STB-style SOKOL_SHDC_IMPL wrapped impl
+  - sokol_zig      Zig module file
+  - sokol_nim      Nim module file
+  - sokol_odin     Odin module file
+  - sokol_rust     Rust module file
+  - sokol_d        D module file
+  - sokol_jai      Jai module file
+  - sokol_c2       C2 module file
+  - sokol_c3       C3 module file
+  - bare           raw output of SPIRV-Cross compiler, in text or binary format
+  - bare_yaml      like bare, but with reflection file in YAML format
+
+Options:
+
+-h --help                           - print this help text
+-i --input=<GLSL file>              - input source file
+-o --output=<C header>              - output source file
+-l --slang=<glsl430:glsl300es...>   - output shader language(s), see above for list
+   --defines=<define1:define2...>   - optional preprocessor defines
+-m --module=<(null)>                - optional @module name override
+-r --reflection                     - generate runtime reflection functions
+-b --bytecode                       - output bytecode (HLSL and Metal)
+-f --format=<[sokol|sokol_impl|sokol_zig|sokol_nim|sokol_odin|soko - output format (default: sokol)
+-e --errfmt=<[gcc|msvc]>            - error message format (default: gcc)
+-d --dump                           - dump debugging information to stderr
+-g --genver=<[int]>                 - version-stamp for code-generation
+-t --tmpdir=<[dir]>                 - directory for temporary files (use output dir if not specified)
+   --ifdef                          - wrap backend-specific generated code in #ifdef/#endif
+-n --noifdef                        - obsolete, superseded by --ifdef
+   --save-intermediate-spirv        - save intermediate SPIRV bytecode (for debug inspection)
+   --no-log-cmdline                 - don't log the cmdline to the code-generated output file
+   --dependency-file=<[deps file]>  - generate a Clang/GCC style dep-file for use with build systems
+```
+
+# Shader build command lines:
 ```
 ./sokol-shdc.exe --input shaders/triangle.glsl --output include/triangle.glsl.h --format sokol --slang glsl410
 ```
@@ -8,25 +73,16 @@
 ./sokol-shdc.exe --input shaders/quad.glsl --output include/quad.glsl.h --format sokol --slang glsl410
 ```
 ```
-./sokol-shdc.exe --input shaders/quad-wireframe.glsl --output include/quad-wireframe.glsl.h --format sokol --slang glsl410
+./sokol-shdc.exe --input shaders/quad_wireframe.glsl --output include/quad_wireframe.glsl.h --format sokol --slang glsl410
 ```
 
-
-
-
+# Type of gl:
 ```
 glsl410 glsl430 glsl300es glsl310es hlsl4 hlsl5 metal_macos metal_ios metal_sim wgsl reflection
 ```
+# add list:
+  Using the : to add array. When adding list will add more gpu types to the header.
 
 ```
 --slang glsl410:glsl430:glsl300es
-```
-
-```
---slang glsl430:glsl300es
-```
-
-
-```
-./sokol-shdc.exe --input shaders/quad-wireframe.glsl --output include/quad-wireframe.glsl.h --format sokol --slang glsl410
 ```

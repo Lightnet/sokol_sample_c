@@ -198,8 +198,9 @@ set(MAIN_FILE
     # examples/sokol_window.c
     # examples/triangle.c
     # examples/quad.c
-    examples/quad-wireframe.c
-    # examples/triangle.c
+    # examples/quad-wireframe.c
+    # examples/quad_index.c
+    examples/sokol_input.c
 )
 #=== EXECUTABLE: demo
 if(CMAKE_SYSTEM_NAME STREQUAL Windows)

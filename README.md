@@ -3,26 +3,34 @@
 # License: MIT
 
 # Features:
-- cimgui demo test.
+- [x] cimgui demo test.
+- [x] triangle
+- [x] quad 
+- [x] quad wireframe
+- [x] quad index
+- [ ] 2d plane texture
+- [ ] cube
+- [ ] texture cube
+- [ ] 
 
 # sokol tag:
 - ce5f7c96010a76876d4c15f3e618ffbe583991e1   Nov 6, 2025
 
 # Information:
-  It is base on sokol starter cimgui repo.
-
-  This is just a sample for sokol build test.
+  It is base on sokol starter cimgui repo. This is just a sample for sokol build tests. To work toward c program language build project.
 
 ## Notes:
 - It not like raylib cheatsheet. More low level access but compatible for OS.
 - Limited docs required look at the header files.
-- There are good example of the github from floooh and other dev.
+- There are good examples of the github from floooh and other devs.
+- Need to match the header files for those functions from out date code to keep it simple.
+- cimgui stil use c++ to wrapper for ease quick gui build.
 
 # KISS (Keep It Simple, Stupid):
   Note due to dev from sokol is keep it simple and let the dev create their own features to extend.
 
 ## logging:
-  I have look into the logging example printf(). As windows which disable by default for sokol app.
+  Sokol app is disable by default. It has to be config to enable logging.
 
 ```c
 /* -------------------------------------------------------------
@@ -123,6 +131,8 @@ void main() {
 
 # Credits:
 - https://github.com/floooh/sokol
-- https://github.com/zeromake/learnopengl-examples
+- https://github.com/zeromake/learnopengl-examples (out date, refs)
+- https://github.com/floooh/sokol-samples
+- https://github.com/floooh/sokol-tools 
+- https://github.com/floooh/sokol-tools-bin
 - 
-

@@ -1,7 +1,6 @@
 // test
 #define SOKOL_DEBUG // Explicitly define for extra clarity, often automatic in debug builds
 #define SOKOL_VALIDATE_NON_FATAL // Optional: Makes non-fatal issues assert
-// #define SOKOL_LOG_IMPL
 #define SOKOL_IMPL
 #define SOKOL_GLCORE
 
@@ -15,7 +14,7 @@
 /* -------------------------------------------------------------
    Logging helper – safe name, variadic, passes line/file
    ------------------------------------------------------------- */
-static void app_logf(const char* tag,
+static void slogf(const char* tag,
                      uint32_t level,
                      const char* fmt,
                      uint32_t line,
@@ -35,17 +34,15 @@ static void app_logf(const char* tag,
    Helper macros – note the __LINE__/__FILE__ are now part of the macro
    ----------------------------------------------------------------- */
 #define LOG_INFO(tag, fmt, ...) \
-    app_logf(tag, 3, fmt, __LINE__, __FILE__, ##__VA_ARGS__)
+    slogf(tag, 3, fmt, __LINE__, __FILE__, ##__VA_ARGS__)
 
 #define LOG_WARN(tag, fmt, ...) \
-    app_logf(tag, 2, fmt, __LINE__, __FILE__, ##__VA_ARGS__)
+    slogf(tag, 2, fmt, __LINE__, __FILE__, ##__VA_ARGS__)
 
 #define LOG_ERROR(tag, fmt, ...) \
-    app_logf(tag, 1, fmt, __LINE__, __FILE__, ##__VA_ARGS__)
+    slogf(tag, 1, fmt, __LINE__, __FILE__, ##__VA_ARGS__)
 
 static void init(void) {
-    printf("init...\n");
-
     // SOKOL_LOG("TEST");
     LOG_INFO("mygame", "init...");
 
@@ -55,13 +52,13 @@ static void init(void) {
 }
 static void frame(void) {}
 static void cleanup(void) {
-    printf("clean up...\n");
+    LOG_INFO("mygame", "clean up...");
 }
 static void event(const sapp_event* ev) {}
 
 sapp_desc sokol_main(int argc, char* argv[]) {
     (void)argc; (void)argv;
-    printf("main...\n");
+    printf("main...\n"); // does not work here.
 
     return (sapp_desc){
         .init_cb = init,

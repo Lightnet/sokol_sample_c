@@ -12,8 +12,6 @@ static struct {
     sg_pass_action pass_action;
 } state;
 
-
-
 static void init(void) {
     sg_setup(&(sg_desc){
         .environment = sglue_environment(),

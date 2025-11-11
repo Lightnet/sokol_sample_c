@@ -1,20 +1,17 @@
-// #define SOKOL_LOG_IMPL
+// sample test
 #define SOKOL_IMPL
 #define SOKOL_GLCORE
 
 #include "sokol_app.h"
 #include "sokol_log.h"
 
-static void init(void) {
-    printf("init...\n");
-}
+static void init(void) {}
 static void frame(void) {}
 static void cleanup(void) {}
 static void event(const sapp_event* ev) {}
 
 sapp_desc sokol_main(int argc, char* argv[]) {
     (void)argc; (void)argv;
-    printf("main...\n");
 
     return (sapp_desc){
         .init_cb = init,
@@ -28,6 +25,7 @@ sapp_desc sokol_main(int argc, char* argv[]) {
 
         .logger.func = slog_func,
         .win32_console_utf8 = true,
-        .win32_console_create = true,
+        // .win32_console_create = true,
+        .win32_console_attach = true,
     };
 }

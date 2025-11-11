@@ -83,7 +83,7 @@ sapp_desc sokol_main(int argc, char* argv[]) {
         .frame_cb = frame,
         .cleanup_cb = cleanup,
         .event_cb = event,
-        .window_title = "Sokol cimGui",
+        .window_title = "Sokol + cimGui",
         .width = 800,
         .height = 600,
         .icon.sokol_default = true,

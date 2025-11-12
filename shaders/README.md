@@ -86,6 +86,9 @@ Options:
 ```
 ./sokol-shdc.exe --input shaders/loadpng_sapp.glsl --output include/loadpng_sapp.glsl.h --format sokol --slang glsl410
 ```
+```
+./sokol-shdc.exe --input shaders/cube_sapp.glsl --output include/cube_sapp.glsl.h --format sokol --slang glsl410
+```
 
 
 

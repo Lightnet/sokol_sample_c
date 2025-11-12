@@ -6,7 +6,7 @@
 
 #include "sokol_app.h"
 #include "sokol_log.h"
-#include "sokol_fetch.h"
+//#include "sokol_fetch.h"
 
 #include <stdio.h>
 #include <stdarg.h>

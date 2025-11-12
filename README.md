@@ -3,14 +3,16 @@
 # License: MIT
 
 # Features:
-- [x] cimgui demo test.
+- [x] cimgui test.
 - [x] triangle
 - [x] quad 
 - [x] quad wireframe
 - [x] quad index
 - [ ] 2d plane texture
-- [ ] cube
-- [ ] texture cube
+- [x] cube
+- [x] texture cube
+- [x] load file test
+- [x] custom log
 - [ ] 
 
 # sokol tag:

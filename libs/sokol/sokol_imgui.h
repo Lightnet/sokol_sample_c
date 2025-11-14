@@ -2949,9 +2949,12 @@ SOKOL_API_IMPL void simgui_new_frame(const simgui_frame_desc_t* desc) {
 
 static sg_pipeline _simgui_bind_texture_sampler(sg_bindings* bindings, ImTextureID imtex_id) {
     const sg_view tex_view = simgui_texture_view_from_imtextureid(imtex_id);
+    SOKOL_ASSERT(tex_view.id != SG_INVALID_ID);
     const sg_image img = sg_query_view_image(tex_view);
+    SOKOL_ASSERT(img.id != SG_INVALID_ID);
     bindings->views[0] = tex_view;
     bindings->samplers[0] = simgui_sampler_from_imtextureid(imtex_id);
+    SOKOL_ASSERT(bindings->samplers[0].id != SG_INVALID_ID);
     if (sg_query_pixelformat(sg_query_image_pixelformat(img)).filter) {
         return _simgui.def_pip;
     } else {
@@ -2967,11 +2970,10 @@ SOKOL_API_IMPL void simgui_render(void) {
     if (0 == draw_data) {
         return;
     }
-    if (draw_data->CmdListsCount == 0) {
-        return;
-    }
 
-    // catch up with texture updates
+    // catch up with texture updates (important: this needs to happen before
+    // checking the CmdListsCount, otherwise textures might get stuck in
+    // 'WantCreate' state)
     if (draw_data->Textures) {
         for (size_t i = 0; i < (size_t)draw_data->Textures->Size; i++) {
             ImTextureData* tex = draw_data->Textures->Data[i];
@@ -2981,12 +2983,16 @@ SOKOL_API_IMPL void simgui_render(void) {
         }
     }
 
-    /* copy vertices and indices into an intermediate buffer so that
-       they can be updated with a single sg_update_buffer() call each
-       (sg_append_buffer() has performance problems on some GL platforms),
-       also keep track of valid number of command lists in case of a
-       buffer overflow
-    */
+    // early-out if nothing needs to be rendered
+    if (draw_data->CmdListsCount == 0) {
+        return;
+    }
+
+    // copy vertices and indices into an intermediate buffer so that
+    // they can be updated with a single sg_update_buffer() call each
+    // (sg_append_buffer() has performance problems on some GL platforms),
+    // also keep track of valid number of command lists in case of a
+    // buffer overflow
     size_t all_vtx_size = 0;
     size_t all_idx_size = 0;
     int cmd_list_count = 0;

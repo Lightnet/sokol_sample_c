@@ -8,6 +8,8 @@
 #include "cimgui.h"
 #include "sokol_imgui.h"
 
+#include "module_lua.h"
+
 static struct {
     sg_pass_action pass_action;
 } state;
@@ -18,6 +20,8 @@ static void init(void) {
         .logger.func = slog_func,
     });
     simgui_setup(&(simgui_desc_t){ 0 });
+
+    lua_module_init();
 
     // initial clear color
     state.pass_action = (sg_pass_action) {
@@ -37,25 +41,12 @@ static void frame(void) {
     igSetNextWindowPos((ImVec2){10,10}, ImGuiCond_Once);
     igSetNextWindowSize((ImVec2){400, 100}, ImGuiCond_Once);
     igBegin("Hello Dear ImGui!", 0, ImGuiWindowFlags_None);
-    // igColorEdit3("Background", &state.pass_action.colors[0].clear_value.r, ImGuiColorEditFlags_None);
-    // igColorEdit4("Background", &state.pass_action.colors[0].clear_value.r, ImGuiColorEditFlags_None);
-    // float rgb[3] = {
-    //     state.pass_action.colors[0].clear_value.r,
-    //     state.pass_action.colors[0].clear_value.g,
-    //     state.pass_action.colors[0].clear_value.b
-    // };
-
-    // if (igColorEdit3("Background", rgb, ImGuiColorEditFlags_None)) {
-    //     state.pass_action.colors[0].clear_value.r = rgb[0];
-    //     state.pass_action.colors[0].clear_value.g = rgb[1];
-    //     state.pass_action.colors[0].clear_value.b = rgb[2];
-    //     // alpha remains 1.0
-    // }
 
     igColorEdit4("Background", 
              (float*)&state.pass_action.colors[0].clear_value, 
              ImGuiColorEditFlags_None);
 
+    lua_module_frame();
 
     igEnd();
     /*=== UI CODE ENDS HERE ===*/
@@ -67,6 +58,7 @@ static void frame(void) {
 }
 
 static void cleanup(void) {
+    lua_module_shutdown(); 
     simgui_shutdown();
     sg_shutdown();
 }

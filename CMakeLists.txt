@@ -10,6 +10,63 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
+
+include(FetchContent)
+
+#================================================
+# Lua
+#================================================
+FetchContent_Declare(
+    lua
+    GIT_REPOSITORY https://github.com/lua/lua.git
+    GIT_TAG v5.4.8
+    GIT_SHALLOW TRUE
+)
+FetchContent_MakeAvailable(lua)
+
+#================================================
+# Lua doesn't have a CMake build, so we manually compile it
+# List Lua source files (core and libraries, excluding lua.c and luac.c)
+#================================================
+set(LUA_SRC
+    ${lua_SOURCE_DIR}/lapi.c
+    ${lua_SOURCE_DIR}/lauxlib.c
+    ${lua_SOURCE_DIR}/lbaselib.c
+    ${lua_SOURCE_DIR}/lcode.c
+    ${lua_SOURCE_DIR}/lcorolib.c
+    ${lua_SOURCE_DIR}/lctype.c
+    ${lua_SOURCE_DIR}/ldblib.c
+    ${lua_SOURCE_DIR}/ldebug.c
+    ${lua_SOURCE_DIR}/ldo.c
+    ${lua_SOURCE_DIR}/ldump.c
+    ${lua_SOURCE_DIR}/lfunc.c
+    ${lua_SOURCE_DIR}/lgc.c
+    ${lua_SOURCE_DIR}/linit.c
+    ${lua_SOURCE_DIR}/liolib.c
+    ${lua_SOURCE_DIR}/llex.c
+    ${lua_SOURCE_DIR}/lmathlib.c
+    ${lua_SOURCE_DIR}/lmem.c
+    ${lua_SOURCE_DIR}/loadlib.c
+    ${lua_SOURCE_DIR}/lobject.c
+    ${lua_SOURCE_DIR}/lopcodes.c
+    ${lua_SOURCE_DIR}/loslib.c
+    ${lua_SOURCE_DIR}/lparser.c
+    ${lua_SOURCE_DIR}/lstate.c
+    ${lua_SOURCE_DIR}/lstring.c
+    ${lua_SOURCE_DIR}/lstrlib.c
+    ${lua_SOURCE_DIR}/ltable.c
+    ${lua_SOURCE_DIR}/ltablib.c
+    ${lua_SOURCE_DIR}/ltm.c
+    ${lua_SOURCE_DIR}/lundump.c
+    ${lua_SOURCE_DIR}/lvm.c
+    ${lua_SOURCE_DIR}/lzio.c
+    ${lua_SOURCE_DIR}/lutf8lib.c
+)
+# Create a static Lua library
+add_library(lua STATIC ${LUA_SRC})
+target_include_directories(lua PUBLIC ${lua_SOURCE_DIR})
+
+
 set(CIMGUI_PATH_DIR libs/cimgui)
 
 #=== LIBRARY: cimgui + Dear ImGui
@@ -60,12 +117,15 @@ set(SRC_FILES
     ${LIBS_INCLUDE_DIR}/nuklear/nuklear.c #need for nuklear setup.
     ${LIBS_INCLUDE_DIR}/util/fileutil.c
     ${LIBS_INCLUDE_DIR}/stb/stb_image.c
+    src/custom_log.c
+    src/module_lua.c
 )
 
 set(APP_NAME demo)
 set(MAIN_FILE
     ${SRC_FILES}
     # src/demo.c
+    src/main.c
     # src/sokol_flecs.c
     # examples/sokol_window.c
     # examples/triangle.c
@@ -76,7 +136,10 @@ set(MAIN_FILE
     # examples/sokol_quad_texture.c
     # examples/sokol_nuklear.c
     # examples/sbuftex_sapp.c # nope
-    examples/loadpng_sapp.c
+    # examples/loadpng_sapp.c
+    # examples/cube_sapp.c
+    # examples/sokol_fetch_test.c
+    # examples/loadpng_sapp02.c
 )
 #=== EXECUTABLE: demo
 if(CMAKE_SYSTEM_NAME STREQUAL Windows)
@@ -88,11 +151,13 @@ endif()
 target_link_libraries(${APP_NAME} 
     sokol
     # flecs                                           # flecs
+    lua
 )
 target_include_directories(${APP_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${STB_PATH_DIR}
     ${LIBS_INCLUDE_DIR}
+    ${lua_SOURCE_DIR}                                   # lua
 )
 # this hack removes the xxx-CMakeForceLinker.cxx dummy file
 set_target_properties(${APP_NAME} PROPERTIES LINKER_LANGUAGE C)

@@ -9,6 +9,7 @@
 #include "sokol_imgui.h"
 
 #include "module_lua.h"
+#include "module_cimgui.h"
 
 static struct {
     sg_pass_action pass_action;
@@ -22,6 +23,9 @@ static void init(void) {
     simgui_setup(&(simgui_desc_t){ 0 });
 
     lua_module_init();
+    cimgui_module_init(get_lua_state());
+
+    load_script("script.lua"); 
 
     // initial clear color
     state.pass_action = (sg_pass_action) {
@@ -38,17 +42,20 @@ static void frame(void) {
     });
 
     /*=== UI CODE STARTS HERE ===*/
-    igSetNextWindowPos((ImVec2){10,10}, ImGuiCond_Once);
-    igSetNextWindowSize((ImVec2){400, 100}, ImGuiCond_Once);
-    igBegin("Hello Dear ImGui!", 0, ImGuiWindowFlags_None);
+    // igSetNextWindowPos((ImVec2){10,10}, ImGuiCond_Once);
+    // igSetNextWindowSize((ImVec2){400, 100}, ImGuiCond_Once);
+    // igBegin("Hello Dear ImGui!", 0, ImGuiWindowFlags_None);
 
-    igColorEdit4("Background", 
-             (float*)&state.pass_action.colors[0].clear_value, 
-             ImGuiColorEditFlags_None);
+    // igColorEdit4("Background", 
+    //          (float*)&state.pass_action.colors[0].clear_value, 
+    //          ImGuiColorEditFlags_None);
 
-    lua_module_frame();
+    // lua_module_frame(); //test button
 
-    igEnd();
+    // igEnd();
+
+    cimgui_module_frame();          // ← this draws the Lua UI
+
     /*=== UI CODE ENDS HERE ===*/
 
     sg_begin_pass(&(sg_pass){ .action = state.pass_action, .swapchain = sglue_swapchain() });

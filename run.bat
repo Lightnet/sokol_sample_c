@@ -7,6 +7,8 @@ set "BASERES=resources"
 set "BUILDRES=build\resources"
 xcopy "%BASERES%" "%BUILDRES%\" /E /I /Y
 
+copy "script.lua" "build/script.lua"
+
 if not exist build mkdir build
 cd build
 demo.exe

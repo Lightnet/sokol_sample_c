@@ -119,6 +119,7 @@ set(SRC_FILES
     ${LIBS_INCLUDE_DIR}/stb/stb_image.c
     src/custom_log.c
     src/module_lua.c
+    src/module_cimgui.c
 )
 
 set(APP_NAME demo)
@@ -137,7 +138,9 @@ set(MAIN_FILE
     # examples/sokol_nuklear.c
     # examples/sbuftex_sapp.c # nope
     # examples/loadpng_sapp.c
+    # examples/loadpng_sapp02.c
     # examples/cube_sapp.c
+    # examples/cube_sapp02.c
     # examples/sokol_fetch_test.c
     # examples/loadpng_sapp02.c
 )

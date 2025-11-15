@@ -12,3 +12,6 @@ int test_call(lua_State *L);
 void lua_module_frame(void); // ImGui button
 
 void lua_module_shutdown(void);  // clean up
+
+/* safe way for other modules to obtain the state */
+lua_State* get_lua_state(void);      /* returns NULL if not initialised */

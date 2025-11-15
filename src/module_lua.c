@@ -23,6 +23,14 @@ int test_call(lua_State *L)
     return 0;
 }
 
+
+static int lua_sapp_frame_count(lua_State *L)
+{
+    lua_pushinteger(L, sapp_frame_count());
+    return 1;
+}
+
+
 /* ------------------------------------------------------------------ */
 /*  Initialise Lua, register function and load script.lua             */
 /* ------------------------------------------------------------------ */
@@ -42,8 +50,8 @@ void lua_module_init(void)
     luaL_openlibs(L);
 
     // Register C function as hello_world()
-    lua_pushcfunction(L, test_call);
-    lua_setglobal(L, "hello_world");
+    lua_pushcfunction(L, test_call);lua_setglobal(L, "hello_world");
+    lua_pushcfunction(L, lua_sapp_frame_count);lua_setglobal(L, "sapp_frame_count");
 
     // Load script.lua
     // const char *script = "script.lua";
@@ -53,6 +61,12 @@ void lua_module_init(void)
     //     lua_pop(L, 1);
     // }
 }
+
+lua_State* get_lua_state(void)
+{
+    return L;
+}
+
 
 /* ------------------------------------------------------------------ */
 /*  2. Load and run a script if the file exists                       */
